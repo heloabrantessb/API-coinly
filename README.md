@@ -1,98 +1,194 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# API Coinly
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend API for a personal finance mobile app, built with NestJS, Prisma, and PostgreSQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Stack
 
-## Description
+- NestJS
+- Prisma ORM
+- PostgreSQL
+- Docker Compose
+- TypeScript
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Current Scope
 
-## Project setup
+The project currently includes the base application structure and the first domain modules:
 
-```bash
-$ npm install
+- `users`
+- `transactions`
+
+The data model in [`prisma/schema.prisma`](C:\Users\heloisa.batista\Documents\API-coinly\prisma\schema.prisma) currently defines:
+
+- `User`
+- `Transaction`
+- `Type` enum with `income` and `expense`
+
+## Project Structure
+
+```txt
+src/
+  prisma/
+  users/
+  transactions/
+  app.module.ts
+  main.ts
+prisma/
+  schema.prisma
+docker-compose.yml
+prisma.config.ts
 ```
 
-## Compile and run the project
+## Requirements
 
-```bash
-# development
-$ npm run start
+- Node.js 20+
+- npm 10+
+- Docker Desktop
 
-# watch mode
-$ npm run start:dev
+## Environment
 
-# production mode
-$ npm run start:prod
+Create a `.env` file in the project root.
+
+Recommended local database connection when Prisma runs on your machine and PostgreSQL runs in Docker:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/coinly?schema=public"
 ```
 
-## Run tests
+Important:
+
+- `docker-compose.yml` uses `POSTGRES_USER=postgres`
+- `docker-compose.yml` uses `POSTGRES_PASSWORD=postgres`
+- if you run Prisma commands from the host machine, use `localhost`, not `db`
+- `db` only works as hostname from another container in the same Docker network
+
+## Running PostgreSQL with Docker
+
+Start the database:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker compose up -d
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Stop the database:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+docker compose down
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Current Docker service:
 
-## Resources
+- `db`: PostgreSQL 15 exposed on port `5432`
 
-Check out a few resources that may come in handy when working with NestJS:
+## Install Dependencies
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+npm install
+```
 
-## Support
+## Prisma
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Validate the schema:
 
-## Stay in touch
+```bash
+npx prisma validate
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Create and apply a migration:
 
-## License
+```bash
+npx prisma migrate dev --name init
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Generate the Prisma client:
+
+```bash
+npx prisma generate
+```
+
+## Running the API
+
+Development:
+
+```bash
+npm run start:dev
+```
+
+Production build:
+
+```bash
+npm run build
+npm run start:prod
+```
+
+Default Nest development URL:
+
+```txt
+http://localhost:3000
+```
+
+## Available Scripts
+
+```bash
+npm run build
+npm run start
+npm run start:dev
+npm run start:debug
+npm run start:prod
+npm run lint
+npm run test
+npm run test:watch
+npm run test:cov
+npm run test:e2e
+```
+
+## Data Model Overview
+
+### User
+
+- `id`
+- `email`
+- `password_hash`
+- `created_at`
+- `updated_at`
+
+### Transaction
+
+- `id`
+- `user_id`
+- `type`
+- `value`
+- `category`
+- `date`
+- `description`
+- `created_at`
+- `updated_at`
+
+## API Direction
+
+This project is being structured as a REST API for a mobile finance app. The expected MVP direction is:
+
+- authentication
+- user management
+- transaction CRUD
+- PostgreSQL persistence
+
+Expected resource style:
+
+- `POST /auth/register`
+- `POST /auth/login`
+- `GET /transactions`
+- `POST /transactions`
+- `PATCH /transactions/:id`
+- `DELETE /transactions/:id`
+
+## Known Setup Caveats
+
+- Prisma migrations require a valid `DATABASE_URL`
+- Prisma CLI may fail in restricted environments if it cannot download engine binaries
+- if PostgreSQL is running in Docker and Prisma is running on the host, the connection string must point to `localhost`
+
+## Next Steps
+
+- implement authentication with JWT
+- connect `users` and `transactions` modules to Prisma
+- add request validation and error handling
