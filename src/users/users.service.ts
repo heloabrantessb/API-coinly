@@ -13,9 +13,7 @@ export class UsersService {
       where: { email: userDto.email },
     });
 
-    if (userAlreadyExists) {
-      throw new ConflictException('Este email ja esta sendo utilizado');
-    }
+    if (userAlreadyExists) throw new ConflictException('Este email ja esta sendo utilizado');
 
     const hashedPassword = await hash(userDto.password, 10);
 
@@ -37,8 +35,8 @@ export class UsersService {
     return this.prisma.user.findMany();
   }
 
-  findOne(id: number) {
-    return this.prisma.user.findUnique({ where: { id } });
+  findOneByEmail(email: string) {
+    return this.prisma.user.findUnique({ where: { email } });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
