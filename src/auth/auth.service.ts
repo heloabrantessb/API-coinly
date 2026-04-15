@@ -1,7 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
+import { LoginUserDto } from 'src/users/dto/login-user.dto';
+import * as bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -15,7 +16,7 @@ export class AuthService {
     async signIn(login: string, pass: string): Promise<{ access_token: string }> {
         const user = await this.usersService.findOneByEmail(login);
 
-        if (user?.passwordHash !== pass) throw new UnauthorizedException();
+        if (!user || user?.passwordHash !== pass) throw new UnauthorizedException('Invalid credentials');
         
         const payload = { sub: user.id, username: user.email }
 
